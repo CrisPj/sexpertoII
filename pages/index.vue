@@ -11,10 +11,36 @@
       El presente sistema experto presenta una serie de mejoras, con base en las observaciones hechas a las areas de oportunidad
     </p>
     <br>
+
+    <b-modal :active.sync="isModalActive">
+      <form action="">
+        <div class="modal-card" style="width: auto">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Login</p>
+          </header>
+          <section class="modal-card-body">
+            <b-field label="Hecho">
+              <b-input
+                type="text"
+                :value="hecho"
+                placeholder="p"
+                required>
+              </b-input>
+            </b-field>
+
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-primary">Submit</button>
+          </footer>
+        </div>
+      </form>
+    </b-modal>
+
+
     <div class="box">
       <article class="media">
         <div class="media-left">
-          
+
         </div>
         <div class="media-content">
           <div class="content">
@@ -22,7 +48,7 @@
             <p><small>En la presente tabla se introducen los hechos a trabajar sobre
               la base de conocimiento ya establecida.
             </small></p>
-            <a class="button is-success is-pulled-right">Agregar hecho</a>
+            <a @click="isModalActive = true" class="button is-success is-pulled-right">Agregar hecho</a>
             <table class="table">
               <thead>
                 <tr>
@@ -87,7 +113,7 @@
               &nbsp; &nbsp; &nbsp; &nbsp;
               <a class="button is-info is-link">Encadenamiento hacia atras</a>
             </div>
-            
+
           </div>
           <nav class="level is-mobile">
             <div class="level-left">
@@ -136,10 +162,12 @@
 </section>
 </template>
 <script>
-export default{
-data(){
-return{
-}
-}
-}
+  export default {
+    data() {
+      return {
+        isModalActive: false,
+        hecho: null
+      }
+    }
+  }
 </script>
