@@ -83,7 +83,7 @@
             <div class="control">
               <input class="input" type="text" placeholder="Meta o dejar vacio para que el sistema infiera por si mismo.">
               <hr>
-                <a class="button is-link is-primary">Encadenamiento hacia adelante</a>
+              <a class="button is-link is-primary">Encadenamiento hacia adelante</a>
               &nbsp; &nbsp; &nbsp; &nbsp;
               <a class="button is-info is-link">Encadenamiento hacia atras</a>
             </div>
@@ -114,6 +114,21 @@
             <p><strong><h3>Modúlo de Justificación</h3></strong></p>
             <p><small>En esta sección se presentan las reglas tomadas por el sistema para llegar a una conclusión.
             </small></p>
+            <br>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Regla</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <nav class="level is-mobile">
             <div class="level-left">
