@@ -18,6 +18,9 @@ module.exports = {
   */
   loading: { color: '#3B8070' },
   plugins: ['~plugins/buefy'],
+  modules: [
+    '@nuxtjs/axios',
+  ],
   /*
   ** Build configuration
   */
