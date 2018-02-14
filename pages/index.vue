@@ -24,25 +24,25 @@
     </div>
 
     <b-modal :active.sync="isModalActive">
-      <form action="">
+      <form action="" v-on:submit.prevent="onSubmit">
         <div class="modal-card" style="width: auto">
           <header class="modal-card-head">
             <p class="modal-card-title">Agregar Hecho</p>
           </header>
           <section class="modal-card-body">
             <b-field label="Hecho">
-              <b-input type="text" :value="hecho" placeholder="p" required>
+              <b-input type="text" :value="hecho" v-model="hecho" placeholder="p" required>
               </b-input>
             </b-field>
           </section>
           <footer class="modal-card-foot">
-            <button class="button is-primary">Submit</button>
+            <button class="button is-primary" v-on:click="guardarHecho()">Submit</button>
           </footer>
         </div>
       </form>
     </b-modal>
     <b-modal :active.sync="isModalActive2">
-      <form action="">
+      <form >
         <div class="modal-card" style="width: auto">
           <header class="modal-card-head">
             <p class="modal-card-title">Ver Reglas</p>
@@ -91,20 +91,16 @@
             </div>
             <table class="table">
               <thead>
-              <tr>
-                <th>ID</th>
+              <tr >
                 <th>Hecho</th>
-                <th>Seleccion</th>
-                <th>Borrar</th>
+                <th></th>
               </tr>
               </thead>
               <tbody>
 
-              <tr>
-                <th>llave</th>
-                <th>hecho</th>
-                <td>[]</td>
-                <td>X</td>
+              <tr v-for="regla in hechos" :key="regla">
+                <th>{{regla}}</th>
+                <th class="button is-danger" @click="borrarHecho(regla)">Borrar</th>
               </tr>
 
               </tbody>
@@ -177,13 +173,37 @@
   export default {
     mounted() {
       this.getReglas();
+      this.getHechos();
     },
     methods: {
+      async borrarHecho(dato) {
+        try {
+          await this.$axios.post('http://localhost:8080/rmHecho',{"hecho":dato})
+          this.getHechos()
+        } catch (e) {
+          console.log(e.message)
+        }
+      },
+      async guardarHecho() {
+        try {
+          await this.$axios.post('http://localhost:8080/addHecho',{"hecho":this.hecho})
+          this.getHechos()
+        } catch (e) {
+          console.log(e.message)
+        }
+      },
       async getReglas() {
         try {
           const { data } = await this.$axios.get('http://localhost:8080/reglas')
           this.reglas = data
-          console.log(this.reglas)
+        } catch (e) {
+          console.log(e.message)
+        }
+      },
+      async getHechos() {
+        try {
+          const { data } = await this.$axios.get('http://localhost:8080/hechos')
+          this.hechos = data
         } catch (e) {
           console.log(e.message)
         }
@@ -195,7 +215,8 @@
         isModalActive2: false,
         hecho: null,
         regla: null,
-        reglas: undefined
+        reglas: undefined,
+        hechos: undefined
       }
     }
   }
