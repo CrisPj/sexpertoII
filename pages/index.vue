@@ -186,7 +186,9 @@
       },
       async guardarHecho() {
         try {
+          this.isModalActive = false;
           await this.$axios.post('http://localhost:8080/addHecho',{"hecho":this.hecho})
+          this.hecho = null
           this.getHechos()
         } catch (e) {
           console.log(e.message)
