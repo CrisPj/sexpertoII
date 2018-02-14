@@ -1,3 +1,5 @@
 <template>
-  <h1>Gelo wold</h1>
+  <div>
+  	<nuxt-child/>
+  </div>
 </template>
