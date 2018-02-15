@@ -101,49 +101,46 @@
 		</form>
 		</b-modal>
 		
-		<div class="columns">
-			<div class="column">
-				
-				<div class="card">
-					<header class="card-header">
-						<p class="card-header-title">
-							Ver
-						</p>
-						
-					</header>
-					<div class="card-content">
-						<div class="content">
-							<a @click="isModalActive2 = true" class="button is-link">Ver Reglas</a>
-							&nbsp; &nbsp; &nbsp; &nbsp;
-						</div>
-					</div>
-					<footer class="card-footer">
-						
-					</footer>
-				</div>
-			</div>
-			<br>
-			<div class="column">
-				<div class="card">
-					<header class="card-header">
-						<p class="card-header-title">
-							Agregar
-						</p>
-						
-					</header>
-					<div class="card-content">
-						<div class="content">
-							<a @click="isModalActive = true" class="button is-success">Añadir más reglas a la base de conococimiento</a>
-							&nbsp; &nbsp; &nbsp; &nbsp;
-						</div>
-					</div>
-					<footer class="card-footer">
-						
-					</footer>
-				</div>
-				<br>
-			</div>
-		</div>
+		
+
+<div class="box">
+      <article class="media">
+        <div class="media-left">
+        </div>
+        <div class="media-content">
+          <div class="content">
+
+                <h3 class="is-bold">Reglas</h3>
+
+            <div class="is-pulled-right">
+              <a @click="isModalActive = true" class="button is-success">Agregar Reglas</a>
+              &nbsp; &nbsp;
+              <a @click="eliminarReglas()" class="button is-danger">Eliminar Reglas</a>
+              &nbsp; &nbsp;
+              <a @click="isModalActive2 = true" class="button is-link">Ver Reglas</a>
+            </div>
+            <table class="table">
+              <thead>
+              <tr >
+                <th>Regla</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+
+              <tr v-for="regla in reglas" :key="regla">
+                <th>{{regla}}</th>
+                <th class="button is-danger" @click="borrarRegla(regla)">Borrar</th>
+              </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </article>
+    </div>
+
 		<div class="card">
 			<header class="card-header">
 				<p class="card-header-title">
@@ -153,11 +150,9 @@
 			</header>
 			<div class="card-content">
 				<div class="content">
-					<a class="button is-warning">Borrar Reglas una a la vez</a>
+					<a @click="eliminarReglas()" class="button is-danger">Borrar todas las  Reglas</a>
 					&nbsp; &nbsp; &nbsp; &nbsp;
-					<a class="button is-danger">Borrar todas las  Reglas</a>
-					&nbsp; &nbsp; &nbsp; &nbsp;
-					<a class="button is-danger">Borrar todos los  Hechos</a>
+					<a @click="eliminarHechos()" class="button is-danger">Borrar todos los  Hechos</a>
 				</div>
 			</div>
 			<footer class="card-footer">
@@ -188,8 +183,32 @@ methods: {
           await this.$axios.post('http://localhost:8080/addRegla',{"regla":this.regla})
           //await this.$axios.post('http://192.168.100.3:8080/addRegla',{"regla":this.regla})
 
-          this.hecho = null
+          this.regla = null
+          this.getReglas()
+        } catch (e) {
+          console.log(e.message)
+        }
+      },
+      async eliminarHechos() {
+        try {
+          await this.$axios.get('http://localhost:8080/rmHechos')
           this.getHechos()
+        } catch (e) {
+          console.log(e.message)
+        }
+      },
+      async eliminarReglas() {
+        try {
+          await this.$axios.get('http://localhost:8080/rmReglas')
+          this.getReglas()
+        } catch (e) {
+          console.log(e.message)
+        }
+      },
+      async borrarRegla(dato) {
+        try {
+          await this.$axios.post('http://localhost:8080/rmRegla',{"regla":dato})
+          this.getReglas()
         } catch (e) {
           console.log(e.message)
         }
@@ -201,6 +220,7 @@ return {
 	reglas: undefined,
 	isModalActive: false,
 	regla: null,
+    hechos: undefined,
 	}
 	}
 }
