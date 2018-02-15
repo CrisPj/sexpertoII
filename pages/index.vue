@@ -125,11 +125,11 @@
             </p>
             <br/>
             <div class="control">
-              <input class="input" type="text" placeholder="Meta o dejar vacio para que el sistema infiera por si mismo.">
+              <input class="input" v-model="meta" type="text" placeholder="Meta o dejar vacio para que el sistema infiera por si mismo.">
               <hr/>
-              <a class="button is-link is-primary">Encadenamiento hacia adelante</a>
+              <a class="button is-link is-primary" @click="hacerInferencia(true)">Encadenamiento hacia adelante</a>
               &nbsp; &nbsp; &nbsp; &nbsp;
-              <a class="button is-info is-link">Encadenamiento hacia atras</a>
+              <a class="button is-info is-link" @click="hacerInferencia(false)">Encadenamiento hacia atras</a>
             </div>
           </div>
 
@@ -155,9 +155,9 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td></td>
-                <td></td>
+              <tr v-for="regla in justificacion" :key="regla">
+                <th>{{regla}}</th>
+                <th>Nada</th>
               </tr>
               </tbody>
             </table>
@@ -179,6 +179,23 @@
       async borrarHecho(dato) {
         try {
           await this.$axios.post('http://localhost:8080/rmHecho',{"hecho":dato})
+          this.getHechos()
+        } catch (e) {
+          console.log(e.message)
+        }
+      },
+      async hacerInferencia(adelante)
+      {
+        try {
+          if (adelante) {
+            const {data} = await this.$axios.post('http://localhost:8080/adelante', {"meta": this.meta})
+            this.justificacion = data
+          }
+          else {
+            const {data} = await this.$axios.post('http://localhost:8080/atras', {"meta": this.meta})
+            this.justificacion = data
+          }
+          
           this.getHechos()
         } catch (e) {
           console.log(e.message)
@@ -217,8 +234,10 @@
         isModalActive2: false,
         hecho: null,
         regla: null,
+        meta: null,
         reglas: undefined,
-        hechos: undefined
+        hechos: undefined,
+        justificacion: undefined
       }
     }
   }
