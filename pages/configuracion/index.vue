@@ -122,15 +122,19 @@
             <table class="table">
               <thead>
               <tr >
-                <th>Regla</th>
+                <th>Llave</th>
+                <th>Reglas</th>
+                <th>Consecuente</th>
                 <th></th>
               </tr>
               </thead>
               <tbody>
 
               <tr v-for="regla in reglas" :key="regla">
-                <th>{{regla}}</th>
-                <th class="button is-danger" @click="borrarRegla(regla)">Borrar</th>
+                <th>{{regla.llave}}</th>
+                <th> {{regla.reglas}}</th>
+                <th> {{regla.consecuente}}</th>
+                <th class="button is-danger" @click="borrarRegla(regla.llave)">Borrar</th>
               </tr>
 
               </tbody>
@@ -171,6 +175,7 @@ methods: {
 	
 	async getReglas() {
 	try {
+		//const { data } = await this.$axios.get('http://localhost:8080/reglas')
 		const { data } = await this.$axios.get('http://localhost:8080/reglas')
 		this.reglas = data
 	} catch (e) {
@@ -181,7 +186,7 @@ methods: {
         try {
           this.isModalActive = false;
           await this.$axios.post('http://localhost:8080/addRegla',{"regla":this.regla})
-          //await this.$axios.post('http://192.168.100.3:8080/addRegla',{"regla":this.regla})
+          //await this.$axios.post('http://localhost:8080/addRegla',{"regla":this.regla})
 
           this.regla = null
           this.getReglas()
@@ -207,7 +212,7 @@ methods: {
       },
       async borrarRegla(dato) {
         try {
-          await this.$axios.post('http://localhost:8080/rmRegla',{"regla":dato})
+          await this.$axios.post('http://localhost:8080/rmRegla',{"llave":dato})
           this.getReglas()
         } catch (e) {
           console.log(e.message)
