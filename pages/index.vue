@@ -87,6 +87,8 @@
             <div class="is-pulled-right">
               <a @click="isModalActive = true" class="button is-success">Agregar hecho</a>
               &nbsp; &nbsp;
+              <a @click="eliminarHechos()" class="button is-danger">Eliminar hechos</a>
+              &nbsp; &nbsp;
               <a @click="isModalActive2 = true" class="button is-link">Ver Reglas</a>
             </div>
             <table class="table">
@@ -176,6 +178,14 @@
       this.getHechos();
     },
     methods: {
+      async eliminarHechos() {
+        try {
+          await this.$axios.get('http://localhost:8080/rmHechos')
+          this.getHechos()
+        } catch (e) {
+          console.log(e.message)
+        }
+      },
       async borrarHecho(dato) {
         try {
           await this.$axios.post('http://localhost:8080/rmHecho',{"hecho":dato})
