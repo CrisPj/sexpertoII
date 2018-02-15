@@ -30,7 +30,7 @@
 				</header>
 				<section class="modal-card-body">
 					<b-field label="Regla">
-					<b-input type="text" :value="regla" v-model="regla" placeholder="Regla" required>
+					<b-input type="text" :value="regla" v-model="regla" placeholder="Regl formada: Antecendente Operador antecendete -> consecuente" required>
 					</b-input>
 					</b-field>
 				</section>
