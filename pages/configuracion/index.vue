@@ -116,8 +116,7 @@
               <a @click="isModalActive = true" class="button is-success">Agregar Reglas</a>
               &nbsp; &nbsp;
               <a @click="eliminarReglas()" class="button is-danger">Eliminar Reglas</a>
-              &nbsp; &nbsp;
-              <a @click="isModalActive2 = true" class="button is-link">Ver Reglas</a>
+              
             </div>
             <table class="table">
               <thead>
@@ -144,24 +143,6 @@
         </div>
       </article>
     </div>
-
-		<div class="card">
-			<header class="card-header">
-				<p class="card-header-title">
-					Eliminar
-				</p>
-				
-			</header>
-			<div class="card-content">
-				<div class="content">
-					<a @click="eliminarReglas()" class="button is-danger">Borrar todas las  Reglas</a>
-					&nbsp; &nbsp; &nbsp; &nbsp;
-					<a @click="eliminarHechos()" class="button is-danger">Borrar todos los  Hechos</a>
-				</div>
-			</div>
-			<footer class="card-footer">
-			</footer>
-		</div>
 		<br>
 	</div>
 </section>
@@ -196,7 +177,7 @@ methods: {
       },
       async eliminarHechos() {
         try {
-          await this.$axios.get('http://localhost:8080/rmHechos')
+          await this.$axios.post('http://localhost:8080/rmHechos')
           this.getHechos()
         } catch (e) {
           console.log(e.message)
@@ -204,7 +185,7 @@ methods: {
       },
       async eliminarReglas() {
         try {
-          await this.$axios.get('http://localhost:8080/rmReglas')
+          await this.$axios.post('http://localhost:8080/rmReglas')
           this.getReglas()
         } catch (e) {
           console.log(e.message)

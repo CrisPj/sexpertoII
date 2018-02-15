@@ -180,7 +180,7 @@
     methods: {
       async eliminarHechos() {
         try {
-          await this.$axios.get('http://localhost:8080/rmHechos')
+          await this.$axios.get('http://192.168.100.3:8080/rmHechos')
           this.getHechos()
         } catch (e) {
           console.log(e.message)
@@ -188,7 +188,7 @@
       },
       async borrarHecho(dato) {
         try {
-          await this.$axios.post('http://localhost:8080/rmHecho',{"hecho":dato})
+          await this.$axios.post('http://192.168.100.3:8080/rmHecho',{"hecho":dato})
           this.getHechos()
         } catch (e) {
           console.log(e.message)
@@ -198,11 +198,11 @@
       {
         try {
           if (adelante) {
-            const {data} = await this.$axios.post('http://localhost:8080/adelante', {"meta": this.meta})
+            const {data} = await this.$axios.post('http://192.168.100.3:8080/adelante', {"meta": this.meta})
             this.justificacion = data
           }
           else {
-            const {data} = await this.$axios.post('http://localhost:8080/atras', {"meta": this.meta})
+            const {data} = await this.$axios.post('http://192.168.100.3:8080/atras', {"meta": this.meta})
             this.justificacion = data
           }
           
@@ -214,7 +214,7 @@
       async guardarHecho() {
         try {
           this.isModalActive = false;
-          await this.$axios.post('http://localhost:8080/addHecho',{"hecho":this.hecho})
+          await this.$axios.post('http://192.168.100.3:8080/addHecho',{"hecho":this.hecho})
           this.hecho = null
           this.getHechos()
         } catch (e) {
@@ -223,7 +223,7 @@
       },
       async getReglas() {
         try {
-          const { data } = await this.$axios.get('http://localhost:8080/reglas')
+          const { data } = await this.$axios.get('http://192.168.100.3:8080/reglas')
           this.reglas = data
         } catch (e) {
           console.log(e.message)
@@ -231,7 +231,7 @@
       },
       async getHechos() {
         try {
-          const { data } = await this.$axios.get('http://localhost:8080/hechos')
+          const { data } = await this.$axios.get('http://192.168.100.3:8080/hechos')
           this.hechos = data
         } catch (e) {
           console.log(e.message)
