@@ -1,27 +1,5 @@
 <template>
   <section class="container">
-    <div>
-
-      <h1 class="title">
-        Desarrollos Inteligentes.
-      </h1>
-      <h2 class="subtitle">
-        Instituto Tecnlógico de Celaya
-      </h2>
-      <div class="box">
-        <article class="media">
-          <div class="media-left"></div>
-          <div class="media-content">
-            <div class="content">
-              <h3>Difuso.</h3>
-              <p>
-                Esta bien difuso
-              </p>
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
 
     <b-modal :active.sync="isModalActive">
       <form action="" v-on:submit.prevent="guardarVariable">
@@ -52,6 +30,7 @@
             <p class="modal-card-title">Ver Reglas</p>
           </header>
           <section class="modal-card-body">
+
             <table class="table">
               <thead>
               <tr>
@@ -75,42 +54,27 @@
         </div>
       </form>
     </b-modal>
-    <div class="box">
-      <article class="media">
-        <div class="media-left">
-        </div>
-        <div class="media-content">
-          <div class="content">
+    <div class="card">
 
-                <h3 class="is-bold">Variables linguisticas</h3>
-
-            <div class="is-pulled-right">
-              <a @click="isModalActive = true" class="button is-success">Agregar Variable Linguistica</a>
-              &nbsp; &nbsp;
-              <a @click="eliminarHechos()" class="button is-danger">Eliminar variables</a>
+        <div class="card-content">
+            <div class="columns">
+              <div class="column is-3">
+                <div class="is-pulled-right">
+                  <a @click="isModalActive = true" class="button is-success">Agregar Variable Linguistica</a>
+                  &nbsp; &nbsp;
+                  <a @click="eliminarHechos()" class="button is-danger">Eliminar variables</a>
+                </div>
+                <b-table
+                  :data="vars"
+                  :loading="loading"
+                  :columns="columns"
+                  :selected.sync="selected"
+                  focusable>
+                </b-table>
+              </div>
+              <div class="column">Vas a configurar {{ this.selected.nombre }}</div>
             </div>
-            <table class="table">
-              <thead>
-              <tr >
-                <th>Nombre Variable</th>
-                <th>Alias</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-
-              <tr v-for="vari in vars" :key="vari.id">
-                <th>{{vari.nombre}}</th>
-                <th>{{vari.alias}}</th>
-                <th class="button is-danger" @click="borrarHecho(vari.id)">Borrar</th>
-              </tr>
-
-              </tbody>
-            </table>
-          </div>
-
         </div>
-      </article>
     </div>
     <div class="box">
       <article class="media">
@@ -217,8 +181,9 @@
           await this.$axios.post('http://localhost:8080/addVar',{"nombre":this.nombre, "alias":this.alias})
           this.nombre = null
           this.alias = null
-          this.getVars()
+
         } catch (e) {
+          console.log(e.message)
           this.$toast.open({
             duration: 5000,
             message: e.response.data.error,
@@ -226,6 +191,7 @@
             type: 'is-danger'
           })
         }
+        this.getVars()
       },
       async getReglas() {
         try {
@@ -236,9 +202,11 @@
         }
       },
       async getVars() {
+        this.loading = true;
         try {
           const { data } = await this.$axios.get('http://localhost:8080/getVars')
           this.vars = data
+          this.loading = false
         } catch (e) {
           console.log(e.message)
         }
@@ -253,6 +221,24 @@
         regla: null,
         meta: null,
         reglas: undefined,
+        loading: true,
+        selected: undefined,
+        columns: [
+        {
+          field: 'id',
+          label: 'ID',
+          width: '40',
+          numeric: true
+        },
+        {
+          field: 'nombre',
+          label: 'Nombre',
+        },
+        {
+          field: 'alias',
+          label: 'Alias',
+        }
+      ],
         vars: undefined,
         justificacion: undefined
       }
