@@ -100,8 +100,8 @@
 			</div>
 		</form>
 		</b-modal>
-		
-		
+
+
 
 <div class="box">
       <article class="media">
@@ -116,7 +116,7 @@
               <a @click="isModalActive = true" class="button is-success">Agregar Reglas</a>
               &nbsp; &nbsp;
               <a @click="eliminarReglas()" class="button is-danger">Eliminar Reglas</a>
-              
+
             </div>
             <table class="table">
               <thead>
@@ -153,7 +153,7 @@ export default {
 this.getReglas();
 },
 methods: {
-	
+
 	async getReglas() {
 	try {
 		//const { data } = await this.$axios.get('http://localhost:8080/reglas')
@@ -178,7 +178,7 @@ methods: {
       async eliminarHechos() {
         try {
           await this.$axios.post('http://localhost:8080/rmHechos')
-          this.getHechos()
+          this.getVars()
         } catch (e) {
           console.log(e.message)
         }

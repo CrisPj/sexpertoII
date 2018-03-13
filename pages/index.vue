@@ -13,9 +13,9 @@
           <div class="media-left"></div>
           <div class="media-content">
             <div class="content">
-              <h3>Sistema Experto Determinista.</h3>
+              <h3>Difuso.</h3>
               <p>
-                El presente sistema experto presenta una serie de mejoras, con base en las observaciones hechas a las areas de oportunidad.
+                Esta bien difuso
               </p>
             </div>
           </div>
@@ -24,19 +24,23 @@
     </div>
 
     <b-modal :active.sync="isModalActive">
-      <form action="" v-on:submit.prevent="onSubmit">
+      <form action="" v-on:submit.prevent="guardarVariable">
         <div class="modal-card" style="width: auto">
           <header class="modal-card-head">
-            <p class="modal-card-title">Agregar Hecho</p>
+            <p class="modal-card-title">Agregar Variable Linguistica</p>
           </header>
           <section class="modal-card-body">
-            <b-field label="Hecho">
-              <b-input type="text" :value="hecho" v-model="hecho" placeholder="p" required>
+            <b-field label="Nombre">
+              <b-input type="text" :value="nombre" v-model="nombre" placeholder="nombre" required>
+              </b-input>
+            </b-field>
+            <b-field label="Alias">
+              <b-input type="text" :value="alias" v-model="alias" placeholder="alias" required>
               </b-input>
             </b-field>
           </section>
           <footer class="modal-card-foot">
-            <button class="button is-primary" v-on:click="guardarHecho()">Submit</button>
+            <button class="button is-primary">Submit</button>
           </footer>
         </div>
       </form>
@@ -78,31 +82,27 @@
         <div class="media-content">
           <div class="content">
 
-                <h3 class="is-bold">Tabla de hechos</h3>
+                <h3 class="is-bold">Variables linguisticas</h3>
 
-            <p>
-              <small>En la presente tabla se introducen los hechos a trabajar sobre la base de conocimiento ya establecida.
-              </small>
-            </p>
             <div class="is-pulled-right">
-              <a @click="isModalActive = true" class="button is-success">Agregar hecho</a>
+              <a @click="isModalActive = true" class="button is-success">Agregar Variable Linguistica</a>
               &nbsp; &nbsp;
-              <a @click="eliminarHechos()" class="button is-danger">Eliminar hechos</a>
-              &nbsp; &nbsp;
-              <a @click="isModalActive2 = true" class="button is-link">Ver Reglas</a>
+              <a @click="eliminarHechos()" class="button is-danger">Eliminar variables</a>
             </div>
             <table class="table">
               <thead>
               <tr >
-                <th>Hecho</th>
+                <th>Nombre Variable</th>
+                <th>Alias</th>
                 <th></th>
               </tr>
               </thead>
               <tbody>
 
-              <tr v-for="regla in hechos" :key="regla">
-                <th>{{regla}}</th>
-                <th class="button is-danger" @click="borrarHecho(regla)">Borrar</th>
+              <tr v-for="vari in vars" :key="vari.id">
+                <th>{{vari.nombre}}</th>
+                <th>{{vari.alias}}</th>
+                <th class="button is-danger" @click="borrarHecho(vari.id)">Borrar</th>
               </tr>
 
               </tbody>
@@ -174,22 +174,22 @@
 <script>
   export default {
     mounted() {
-      this.getReglas();
-      this.getHechos();
+//      this.getReglas();
+      this.getVars();
     },
     methods: {
       async eliminarHechos() {
         try {
-          await this.$axios.get('http://192.168.100.3:8080/rmHechos')
-          this.getHechos()
+          await this.$axios.get('http://localhost:8080/rmHechos')
+          this.getVars()
         } catch (e) {
           console.log(e.message)
         }
       },
       async borrarHecho(dato) {
         try {
-          await this.$axios.post('http://192.168.100.3:8080/rmHecho',{"hecho":dato})
-          this.getHechos()
+          await this.$axios.post('http://localhost:8080/rmHecho',{"hecho":dato})
+          this.getVars()
         } catch (e) {
           console.log(e.message)
         }
@@ -198,41 +198,47 @@
       {
         try {
           if (adelante) {
-            const {data} = await this.$axios.post('http://192.168.100.3:8080/adelante', {"meta": this.meta})
+            const {data} = await this.$axios.post('http://localhost:8080/adelante', {"meta": this.meta})
             this.justificacion = data
           }
           else {
-            const {data} = await this.$axios.post('http://192.168.100.3:8080/atras', {"meta": this.meta})
+            const {data} = await this.$axios.post('http://localhost:8080/atras', {"meta": this.meta})
             this.justificacion = data
           }
-          
-          this.getHechos()
+
+          this.getVars()
         } catch (e) {
           console.log(e.message)
         }
       },
-      async guardarHecho() {
+      async guardarVariable() {
         try {
           this.isModalActive = false;
-          await this.$axios.post('http://192.168.100.3:8080/addHecho',{"hecho":this.hecho})
-          this.hecho = null
-          this.getHechos()
+          await this.$axios.post('http://localhost:8080/addVar',{"nombre":this.nombre, "alias":this.alias})
+          this.nombre = null
+          this.alias = null
+          this.getVars()
         } catch (e) {
-          console.log(e.message)
+          this.$toast.open({
+            duration: 5000,
+            message: e.response.data.error,
+            position: 'is-bottom',
+            type: 'is-danger'
+          })
         }
       },
       async getReglas() {
         try {
-          const { data } = await this.$axios.get('http://192.168.100.3:8080/reglas')
+          const { data } = await this.$axios.get('http://localhost:8080/reglas')
           this.reglas = data
         } catch (e) {
           console.log(e.message)
         }
       },
-      async getHechos() {
+      async getVars() {
         try {
-          const { data } = await this.$axios.get('http://192.168.100.3:8080/hechos')
-          this.hechos = data
+          const { data } = await this.$axios.get('http://localhost:8080/getVars')
+          this.vars = data
         } catch (e) {
           console.log(e.message)
         }
@@ -242,11 +248,12 @@
       return {
         isModalActive: false,
         isModalActive2: false,
-        hecho: null,
+        nombre: null,
+        alias: null,
         regla: null,
         meta: null,
         reglas: undefined,
-        hechos: undefined,
+        vars: undefined,
         justificacion: undefined
       }
     }
