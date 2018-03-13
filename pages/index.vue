@@ -72,7 +72,7 @@
                   focusable>
                 </b-table>
               </div>
-              <div class="column">Vas a configurar {{ this.selected.nombre }}</div>
+              <div class="column">Vas a configurar {{ this.selected }}</div>
             </div>
         </div>
     </div>
