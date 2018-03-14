@@ -13,11 +13,17 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  vendor: [
+    'chart.js',
+    'vue-chartjs'
+  ],
   /*
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },
-  plugins: ['~plugins/buefy'],
+  plugins: [
+    '~plugins/buefy',
+  ],
   modules: [
     '@nuxtjs/axios',
   ],
