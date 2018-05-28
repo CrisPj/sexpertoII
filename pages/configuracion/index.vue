@@ -116,7 +116,8 @@
               <a @click="isModalActive = true" class="button is-success">Agregar Reglas</a>
               &nbsp; &nbsp;
               <a @click="eliminarReglas()" class="button is-danger">Eliminar Reglas</a>
-              
+              &nbsp; &nbsp;
+              <a @click="entrenar()" class="button is-info">Entrenar Red Neuronal</a>
             </div>
             <table class="table">
               <thead>
@@ -153,7 +154,20 @@ export default {
 this.getReglas();
 },
 methods: {
-	
+
+	async entrenar()
+	{
+		try {
+			const { data } = await this.$axios.get('http://localhost:8080/entrenar')
+			if (data == true)
+			{
+				alert("Red entrenada")
+			}
+		} catch (e)
+		{
+			console.log(e.message)
+		}
+	},
 	async getReglas() {
 	try {
 		//const { data } = await this.$axios.get('http://localhost:8080/reglas')

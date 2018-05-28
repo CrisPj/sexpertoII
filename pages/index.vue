@@ -131,7 +131,7 @@
               <hr/>
               <a class="button is-link is-primary" @click="hacerInferencia(true)">Encadenamiento hacia adelante</a>
               &nbsp; &nbsp; &nbsp; &nbsp;
-              <a class="button is-info is-link" @click="hacerInferencia(false)">Encadenamiento hacia atras</a>
+              <a class="button is-info is-link" @click="hacerInferencia(false)">Respuesta Neuronal</a>
             </div>
           </div>
 
@@ -158,8 +158,8 @@
               </thead>
               <tbody>
               <tr v-for="regla in justificacion" :key="regla">
-                <th>{{regla}}</th>
-                <th>Nada</th>
+                <th>{{regla.llave}}</th>
+                <th>{{trad(regla.reglas)}}->{{regla.consecuente}}</th>
               </tr>
               </tbody>
             </table>
@@ -178,9 +178,22 @@
       this.getHechos();
     },
     methods: {
+      trad(reglas){
+        let x = ''
+        for (var i = 0; i < reglas.length; i++) {
+          if(reglas[i] === '')
+          {
+          }
+          else if (i==0)
+          x = reglas[i]
+          else
+          x = x + '&' + reglas[i]
+        }
+        return x
+      },
       async eliminarHechos() {
         try {
-          await this.$axios.get('http://192.168.100.3:8080/rmHechos')
+          await this.$axios.get('http://localhost:8080/rmHechos')
           this.getHechos()
         } catch (e) {
           console.log(e.message)
@@ -188,7 +201,7 @@
       },
       async borrarHecho(dato) {
         try {
-          await this.$axios.post('http://192.168.100.3:8080/rmHecho',{"hecho":dato})
+          await this.$axios.post('http://localhost:8080/rmHecho',{"hecho":dato})
           this.getHechos()
         } catch (e) {
           console.log(e.message)
@@ -198,11 +211,11 @@
       {
         try {
           if (adelante) {
-            const {data} = await this.$axios.post('http://192.168.100.3:8080/adelante', {"meta": this.meta})
+            const {data} = await this.$axios.post('http://localhost:8080/adelante', {"meta": this.meta})
             this.justificacion = data
           }
           else {
-            const {data} = await this.$axios.post('http://192.168.100.3:8080/atras', {"meta": this.meta})
+            const {data} = await this.$axios.post('http://localhost:8080/atras', {"meta": this.meta})
             this.justificacion = data
           }
           
@@ -214,7 +227,7 @@
       async guardarHecho() {
         try {
           this.isModalActive = false;
-          await this.$axios.post('http://192.168.100.3:8080/addHecho',{"hecho":this.hecho})
+          await this.$axios.post('http://localhost:8080/addHecho',{"hecho":this.hecho})
           this.hecho = null
           this.getHechos()
         } catch (e) {
@@ -223,7 +236,7 @@
       },
       async getReglas() {
         try {
-          const { data } = await this.$axios.get('http://192.168.100.3:8080/reglas')
+          const { data } = await this.$axios.get('http://localhost:8080/reglas')
           this.reglas = data
         } catch (e) {
           console.log(e.message)
@@ -231,7 +244,7 @@
       },
       async getHechos() {
         try {
-          const { data } = await this.$axios.get('http://192.168.100.3:8080/hechos')
+          const { data } = await this.$axios.get('http://localhost:8080/hechos')
           this.hechos = data
         } catch (e) {
           console.log(e.message)
@@ -244,7 +257,7 @@
         isModalActive2: false,
         hecho: null,
         regla: null,
-        meta: null,
+        meta: '',
         reglas: undefined,
         hechos: undefined,
         justificacion: undefined
