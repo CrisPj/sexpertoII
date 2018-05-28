@@ -46,9 +46,9 @@
           to: '/'
         },
         {
-          icon: 'bubble_chart',
-          title: 'Productos',
-          to: '/products'
+          icon: 'settings',
+          title: 'Configuracion',
+          to: '/configuracion'
         }, ]
         return menuItems
       }
