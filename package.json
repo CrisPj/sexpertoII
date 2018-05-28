@@ -14,8 +14,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.0.1",
-    "buefy": "^0.6.3",
-    "bulma": "^0.6.2",
+    "vuetify": "^0.17.3",
     "nuxt": "^1.0.0"
   },
   "devDependencies": {

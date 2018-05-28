@@ -17,7 +17,7 @@ module.exports = {
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },
-  plugins: ['~plugins/buefy'],
+  plugins: ['~plugins/vuetify'],
   modules: [
     '@nuxtjs/axios',
   ],
