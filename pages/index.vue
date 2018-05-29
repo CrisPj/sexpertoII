@@ -32,7 +32,12 @@
                   <tbody>
                     <tr v-for="regla in hechos" :key="regla">
                       <th>{{regla}}</th>
-                      <th class="button is-danger" @click="borrarHecho(regla)">Borrar</th>
+                      <th>
+                        <v-btn color="error" @click="borrarHecho(regla)">
+                          Borrar 
+                          <v-icon dark right>delete</v-icon>
+                        </v-btn>
+                      </th>
                     </tr>
                   </tbody>
               </table>
