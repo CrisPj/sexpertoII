@@ -104,8 +104,8 @@
 </template>
 <script>
 
-
 export default {
+	
 	mounted() {
 this.getReglas();
 },
@@ -114,10 +114,7 @@ methods: {
 	{
 		try {
 			const { data } = await this.$axios.get('http://localhost:8080/entrenar')
-			if (data == true)
-			{
-				alert("Red entrenada")
-			}
+			var network = new neataptic.Architect.Perceptron(data.input[0].size, data.hiddenSize, data.output[0].size);
 		} catch (e)
 		{
 			console.log(e.message)

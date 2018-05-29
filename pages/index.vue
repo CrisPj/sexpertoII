@@ -1,6 +1,6 @@
 <template>
   <section>
-
+<v-alert v-if="alert" :type="alert.type" value="true">{{alert.message}}</v-alert>
     <div class="container">
       <div class="mb-4 mt-3 text-xs-center">
         <h1 class="title">
@@ -227,7 +227,8 @@
             this.justificacion = data
           }
           else {
-            const {data} = await this.$axios.post('http://localhost:8080/atras', {"meta": this.meta})
+            const {data} = await this.$axios.post('http://localhost:8080/atras')
+            if (data == false) this.alert = {type: 'error', message: 'Se necesita entrenar la red'}
             this.justificacion = data
           }
           
@@ -272,7 +273,8 @@
         meta: '',
         reglas: undefined,
         hechos: undefined,
-        justificacion: undefined
+        justificacion: undefined,
+        alert: null
       }
     }
   }

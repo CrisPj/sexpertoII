@@ -14,8 +14,10 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.0.1",
-    "vuetify": "^0.17.3",
-    "nuxt": "^1.0.0"
+    "child_process": "^1.0.2",
+    "neataptic": "^1.4.7",
+    "nuxt": "^1.0.0",
+    "vuetify": "^0.17.3"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
