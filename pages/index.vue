@@ -1,174 +1,180 @@
 <template>
-  <section class="container">
-    <div>
+  <section>
 
-      <h1 class="title">
-        Desarrollos Inteligentes.
-      </h1>
-      <h2 class="subtitle">
-        Instituto Tecnlógico de Celaya
-      </h2>
-      <div class="box">
-        <article class="media">
-          <div class="media-left"></div>
-          <div class="media-content">
-            <div class="content">
-              <h3>Sistema Experto Determinista.</h3>
-              <p>
-                El presente sistema experto presenta una serie de mejoras, con base en las observaciones hechas a las areas de oportunidad.
-              </p>
-            </div>
-          </div>
-        </article>
+    <div class="container">
+      <div class="mb-4 mt-3 text-xs-center">
+        <h1 class="title">
+          Home
+        </h1>
       </div>
-    </div>
+      
+      <v-layout class="mb-5">
+        <v-flex xs12>
+          <v-card class="px-4 pb-2 text-xs-center">
+            <v-card-title primary-title>
+              <div>
+                <h3 class="headline mb-0">Tabla de hechos</h3>
+              </div>
+            </v-card-title>
+              <div>
+                <v-btn color="success" @click.stop="isModalActive = true">Agregar hecho</v-btn>
+                <v-btn color="error" @click="eliminarHechos()">Eliminar hechos</v-btn>
+                <v-btn color="info" @click.stop="isModalActive2 = true">Ver Reglas</v-btn>
+              </div>
 
-    <b-modal :active.sync="isModalActive">
-      <form action="" v-on:submit.prevent="onSubmit">
-        <div class="modal-card" style="width: auto">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Agregar Hecho</p>
-          </header>
-          <section class="modal-card-body">
-            <b-field label="Hecho">
-              <b-input type="text" :value="hecho" v-model="hecho" placeholder="p" required>
-              </b-input>
-            </b-field>
-          </section>
-          <footer class="modal-card-foot">
-            <button class="button is-primary" v-on:click="guardarHecho()">Submit</button>
-          </footer>
-        </div>
-      </form>
-    </b-modal>
-    <b-modal :active.sync="isModalActive2">
-      <form >
-        <div class="modal-card" style="width: auto">
-          <header class="modal-card-head">
-            <p class="modal-card-title">Ver Reglas</p>
-          </header>
-          <section class="modal-card-body">
-            <table class="table">
-              <thead>
-              <tr>
-                <th>ID</th>
-                <th>Regla</th>
-                <th>Consecuente</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr v-for="(regla,index) in reglas" :key="index">
-                <td>{{regla.llave}}</td>
-                <td>{{regla.reglas}}</td>
-                <td>{{regla.consecuente}}</td>
-              </tr>
-              </tbody>
-            </table>
-          </section>
-          <footer class="modal-card-foot">
-            <button class="button is-primary">Submit</button>
-          </footer>
-        </div>
-      </form>
-    </b-modal>
-    <div class="box">
-      <article class="media">
-        <div class="media-left">
-        </div>
-        <div class="media-content">
-          <div class="content">
+              <table class="table">
+                  <thead>
+                  <tr >
+                    <th>Hecho</th>
+                    <th>Opciones</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="regla in hechos" :key="regla">
+                      <th>{{regla}}</th>
+                      <th class="button is-danger" @click="borrarHecho(regla)">Borrar</th>
+                    </tr>
+                  </tbody>
+              </table>
 
-                <h3 class="is-bold">Tabla de hechos</h3>
+          </v-card>
+        </v-flex>
+      </v-layout>
 
-            <p>
-              <small>En la presente tabla se introducen los hechos a trabajar sobre la base de conocimiento ya establecida.
-              </small>
-            </p>
-            <div class="is-pulled-right">
-              <a @click="isModalActive = true" class="button is-success">Agregar hecho</a>
-              &nbsp; &nbsp;
-              <a @click="eliminarHechos()" class="button is-danger">Eliminar hechos</a>
-              &nbsp; &nbsp;
-              <a @click="isModalActive2 = true" class="button is-link">Ver Reglas</a>
-            </div>
-            <table class="table">
-              <thead>
-              <tr >
-                <th>Hecho</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
+      <v-layout class="mb-5">
+        <v-flex xs12>
+          <v-card class="px-4 pb-2 text-xs-center">
+            <v-card-title primary-title>
+              <div>
+                <h3 class="headline mb-0">Motor de Inferencia</h3>
+              </div>
+            </v-card-title>
 
-              <tr v-for="regla in hechos" :key="regla">
-                <th>{{regla}}</th>
-                <th class="button is-danger" @click="borrarHecho(regla)">Borrar</th>
-              </tr>
-
-              </tbody>
-            </table>
-          </div>
-
-        </div>
-      </article>
-    </div>
-    <div class="box">
-      <article class="media">
-        <div class="media-left">
-        </div>
-        <div class="media-content">
-          <div class="content">
-
-                <h3>Motor de Inferencia</h3>
-            <p>
-              <small>En la siguiente sección se puede ingresar la meta a llegar o bien dejar que el propio motor determine
-                la meta.
-              </small>
-            </p>
-            <br/>
             <div class="control">
-              <input class="input" v-model="meta" type="text" placeholder="Meta o dejar vacio para que el sistema infiera por si mismo.">
-              <hr/>
-              <a class="button is-link is-primary" @click="hacerInferencia(true)">Encadenamiento hacia adelante</a>
-              &nbsp; &nbsp; &nbsp; &nbsp;
-              <a class="button is-info is-link" @click="hacerInferencia(false)">Respuesta Neuronal</a>
+              <v-text-field
+                v-model="meta" type="text"
+                name="input-1"
+                label="Ingresar meta para inferir"
+              ></v-text-field>
             </div>
-          </div>
 
-        </div>
-      </article>
-    </div>
-    <div class="box">
-      <article class="media">
-        <div class="media-left">
-        </div>
-        <div class="media-content">
-          <div class="content">
-            <h3>Modúlo de Justificación</h3>
-            <p>
-              En esta sección se presentan las reglas tomadas por el sistema para llegar a una conclusión.
-            </p>
-            <br>
-            <table>
-              <thead>
-              <tr>
-                <th>ID</th>
-                <th>Regla</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr v-for="regla in justificacion" :key="regla">
-                <th>{{regla.llave}}</th>
-                <th>{{trad(regla.reglas)}}->{{regla.consecuente}}</th>
-              </tr>
-              </tbody>
+            <div>
+              <v-btn color="success" @click="hacerInferencia(true)">Encadenamiento hacia adelante</v-btn>
+              <v-btn color="info" @click="hacerInferencia(false)">Respuesta Neuronal</v-btn>
+            </div>
+
+          </v-card>
+        </v-flex>
+      </v-layout>
+
+      <v-layout class="mb-5">
+        <v-flex xs12>
+          <v-card class="px-4 pb-2 text-xs-center">
+            <v-card-title primary-title>
+              <div>
+                <h3 class="headline mb-0">Modúlo de Justificación</h3>
+              </div>
+            </v-card-title>
+
+            <table class="table">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Regla</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="regla in justificacion" :key="regla">
+                    <th>{{regla.llave}}</th>
+                    <th>{{trad(regla.reglas)}}->{{regla.consecuente}}</th>
+                  </tr>
+                </tbody>
             </table>
-          </div>
 
-        </div>
-      </article>
+          </v-card>
+        </v-flex>
+      </v-layout>
+
     </div>
-    <br />
+
+    <div>
+      <v-dialog
+        v-model="isModalActive"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+        scrollable>
+        <v-card tile>
+          <v-toolbar card dark color="primary">
+            <v-btn icon dark @click.native="isModalActive = false">
+              <v-icon>close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Agregar hecho</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-items>
+              <!-- <v-btn dark flat @click.native="isModalActive = false">Save</v-btn> -->
+            </v-toolbar-items>
+          </v-toolbar>
+          <v-card-text class="px-4 pb-2 text-xs-center">
+            <h3 class="headline mb-0">Agregar hecho</h3>
+            <div class="control">
+              <v-text-field
+                v-model="hecho" type="text"
+                label="Nuevo hecho"
+                required
+              ></v-text-field>
+            </div>
+            <div>
+              <v-btn color="success" v-on:click="guardarHecho()">Agregar</v-btn>
+            </div>
+          </v-card-text>
+          <div style="flex: 1 1 auto;"></div>
+        </v-card>
+      </v-dialog>
+
+      <v-dialog
+        v-model="isModalActive2"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+        scrollable>
+        <v-card tile>
+          <v-toolbar card dark color="primary">
+            <v-btn icon dark @click.native="isModalActive2 = false">
+              <v-icon>close</v-icon>
+            </v-btn>
+            <v-toolbar-title>Reglas</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-toolbar-items>
+              <!-- <v-btn dark flat @click.native="isModalActive2 = false">Save</v-btn> -->
+            </v-toolbar-items>
+          </v-toolbar>
+          <v-card-text class="px-4 pb-2 text-xs-center ">
+            <h3 class="headline mb-0">Reglas</h3>
+            <section class="modal-card-body">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Regla</th>
+                  <th>Consecuente</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(regla,index) in reglas" :key="index">
+                  <td>{{regla.llave}}</td>
+                  <td>{{regla.reglas}}</td>
+                  <td>{{regla.consecuente}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </section>
+          </v-card-text>
+          <div style="flex: 1 1 auto;"></div>
+        </v-card>
+      </v-dialog>
+    </div>
+    
   </section>
 </template>
 <script>

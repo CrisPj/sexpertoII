@@ -42,7 +42,7 @@
       menuItems() {
         let menuItems = [{
           icon: 'home',
-          title: 'Index',
+          title: 'Home',
           to: '/'
         },
         {
