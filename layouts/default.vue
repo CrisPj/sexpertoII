@@ -49,7 +49,11 @@
           icon: 'settings',
           title: 'Configuracion',
           to: '/configuracion'
-        }, ]
+        }, {
+            icon: 'people',
+                title: 'Acerca de',
+                to: '/about'},
+        ]
         return menuItems
       }
     },
