@@ -33,7 +33,10 @@
                     <tr v-for="regla in hechos" :key="regla">
                       <th>{{regla}}</th>
                       <th>
-                        <v-btn color="error" @click="borrarHecho(regla)">Borrar</v-btn>
+                        <v-btn color="error" @click="borrarHecho(regla)">
+                          Borrar 
+                          <v-icon dark right>delete</v-icon>
+                        </v-btn>
                       </th>
                     </tr>
                   </tbody>
