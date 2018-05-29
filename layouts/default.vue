@@ -31,7 +31,7 @@
           </v-container>
     </v-content>
     <v-footer color="primary" dark app>
-      <span class="white--text text-xs-center">Python Team &copy; 2017 Powered by Captain Morgan & Jack Daniel's</span>
+      <span class="white--text text-xs-center">Python Team &copy; 2018 - Powered by Captain Morgan & Jack Daniel's</span>
     </v-footer>
   </v-app>
 </template>
@@ -63,7 +63,7 @@
         drawer: false,
         fixed: false,
         items: undefined,
-        title: 'Sistema experto'
+        title: 'Sistema Experto Neuronal - Desarrollos Inteligentes'
       }
     }
   }
