@@ -17,12 +17,12 @@
               </div>
             </v-card-title>
               <div>
-                <v-btn color="success" @click.stop="isModalActive = true">Agregar hecho</v-btn>
-                <v-btn color="error" @click="eliminarHechos()">Eliminar hechos</v-btn>
-                <v-btn color="info" @click.stop="isModalActive2 = true">Ver Reglas</v-btn>
+                <v-btn flat color="success" @click.stop="isModalActive = true">Agregar hecho</v-btn>
+                <v-btn flat color="error" @click="eliminarHechos()">Eliminar hechos</v-btn>
+                <v-btn flat color="info" @click.stop="isModalActive2 = true">Ver Reglas</v-btn>
               </div>
 
-              <table class="table">
+              <table v-if="hechos && hechos.length > 0" class="table">
                   <thead>
                   <tr >
                     <th>Hecho</th>
@@ -33,10 +33,12 @@
                     <tr v-for="regla in hechos" :key="regla">
                       <th>{{regla}}</th>
                       <th>
-                        <v-btn color="error" @click="borrarHecho(regla)">
-                          Borrar 
-                          <v-icon dark right>delete</v-icon>
-                        </v-btn>
+                        <v-tooltip bottom>
+                          <v-btn slot="activator" flat icon color="error" @click="borrarHecho(regla)">
+                            <v-icon>delete</v-icon>
+                          </v-btn>
+                          <span>Borrar</span>
+                        </v-tooltip>
                       </th>
                     </tr>
                   </tbody>
@@ -64,15 +66,15 @@
             </div>
 
             <div>
-              <v-btn color="success" @click="hacerInferencia(true)">Encadenamiento hacia adelante</v-btn>
-              <v-btn color="info" @click="hacerInferencia(false)">Respuesta Neuronal</v-btn>
+              <v-btn flat color="success" @click="hacerInferencia(true)">Encadenamiento hacia adelante</v-btn>
+              <v-btn flat color="info" @click="hacerInferencia(false)">Respuesta Neuronal</v-btn>
             </div>
 
           </v-card>
         </v-flex>
       </v-layout>
 
-      <v-layout class="mb-5">
+      <v-layout v-if="justificacion != null" class="mb-5">
         <v-flex xs12>
           <v-card class="px-4 pb-2 text-xs-center">
             <v-card-title primary-title>

@@ -27,16 +27,17 @@
 					</div>
 				</v-card-title>
 				<div class="right">
-					<v-btn color="success" @click.stop="isModalActive=true">Agregar Reglas</v-btn>
-					<v-btn color="error" @click.native="eliminarReglas">Eliminar Reglas</v-btn>
-					<v-btn color="info" @click.native="entrenar">Entrenar red</v-btn>
+					<v-btn flat color="success" @click.stop="isModalActive=true">Agregar Reglas</v-btn>
+					<v-btn flat color="error" @click.native="eliminarReglas">Eliminar Reglas</v-btn>
+					<v-btn flat color="info" @click.native="entrenar">Entrenar red</v-btn>
 				</div>
-				<table class="table">
+				<table class="table text-xs-center">
 					<thead>
 					<tr>
 						<th>ID</th>
 						<th>Regla</th>
 						<th>Consecuente</th>
+						<th>Opciones</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -44,7 +45,14 @@
 						<td>{{regla.llave}}</td>
 						<td>{{regla.reglas}}</td>
 						<td>{{regla.consecuente}}</td>
-						<th><v-btn color="error" @click.native="borrarRegla(regla.llave)">Borrar</v-btn></th>
+						<th>
+							<v-tooltip bottom>
+								<v-btn slot="activator" flat icon color="error" @click.native="borrarRegla(regla.llave)">
+									<v-icon>delete</v-icon>
+								</v-btn>
+								<span>Borrar</span>
+							</v-tooltip>
+						</th>
 					</tr>
 					</tbody>
 				</table>
