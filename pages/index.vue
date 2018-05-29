@@ -7,7 +7,6 @@
           Home
         </h1>
       </div>
-      
       <v-layout class="mb-5">
         <v-flex xs12>
           <v-card class="px-4 pb-2 text-xs-center">
