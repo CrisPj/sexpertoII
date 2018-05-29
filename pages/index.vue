@@ -1,6 +1,19 @@
 <template>
   <section>
 <v-alert v-if="alert" :type="alert.type" value="true">{{alert.message}}</v-alert>
+ <v-dialog v-model="dialog" max-width="400px">
+        <v-card>
+          <v-card-title class="headline">
+            Se ha obtenido un resultado
+          </v-card-title>
+          <v-card-text>
+            Se ha llegado a una respuesta: {{hechos[hechos.length-1]}}
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" flat @click.stop="dialog=false">Close</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     <div class="container">
       <div class="mb-4 mt-3 text-xs-center">
         <h1 class="title">
@@ -221,6 +234,7 @@
       },
       async hacerInferencia(adelante)
       {
+        this.alert = false
         try {
           if (adelante) {
             const {data} = await this.$axios.post('http://localhost:8080/adelante', {"meta": this.meta})
@@ -229,10 +243,11 @@
           else {
             const {data} = await this.$axios.post('http://localhost:8080/atras')
             if (data == false) this.alert = {type: 'error', message: 'Se necesita entrenar la red'}
-            this.justificacion = data
-          }
-          
+          }          
           this.getHechos()
+          if((!adelante && !this.alert)|| (adelante && justificacion))
+            this.dialog = true
+        
         } catch (e) {
           console.log(e.message)
         }
@@ -272,9 +287,10 @@
         regla: null,
         meta: '',
         reglas: undefined,
-        hechos: undefined,
+        hechos: [],
         justificacion: undefined,
-        alert: null
+        alert: null,
+        dialog: false
       }
     }
   }
